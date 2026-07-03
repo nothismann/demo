@@ -1,4 +1,4 @@
-name: Extract villa 3 images
+name: Extract replacement villa 1 data
 
 on:
   push:
@@ -14,17 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
       - name: Install Playwright
         run: |
           pip install playwright
           playwright install --with-deps chromium
-
-      - name: Extract Airbnb image URLs
+      - name: Extract Airbnb listing
         run: |
           python - <<'PY'
           import asyncio, json, re
@@ -32,87 +29,59 @@ jobs:
           from urllib.parse import unquote
           from playwright.async_api import async_playwright
 
-          URL = 'https://www.airbnb.com.tw/rooms/1693434019336117520?check_in=2026-09-24&check_out=2026-09-27&guests=1&adults=5&s=67&unique_share_id=28054f59-8b16-4c6f-94bc-3637112fb61c'
+          URL = 'https://www.airbnb.com.tw/rooms/1455709683965415928?check_in=2026-09-24&check_out=2026-09-27&guests=1&adults=5&s=67&unique_share_id=9cf451b2-6e75-4b41-b71c-dcff0673eb1b'
+          LISTING_ID = '1455709683965415928'
 
           async def main():
               async with async_playwright() as p:
                   browser = await p.chromium.launch(headless=True)
-                  page = await browser.new_page(
-                      viewport={'width': 1440, 'height': 1200},
-                      user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
-                  )
+                  page = await browser.new_page(viewport={'width':1440,'height':1600}, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36')
                   await page.goto(URL, wait_until='domcontentloaded', timeout=120000)
                   await page.wait_for_timeout(12000)
+                  for y in (900, 1800, 3000, 4500, 0):
+                      await page.evaluate(f'window.scrollTo(0,{y})')
+                      await page.wait_for_timeout(1600)
 
-                  # Try to reveal the photo grid if Airbnb renders it lazily.
-                  try:
-                      await page.mouse.wheel(0, 1800)
-                      await page.wait_for_timeout(4000)
-                      await page.mouse.wheel(0, -1800)
-                      await page.wait_for_timeout(2000)
-                  except Exception:
-                      pass
+                  text = await page.locator('body').inner_text()
+                  html = await page.content()
+                  title = await page.title()
 
                   urls = []
-
-                  # DOM image URLs and srcsets.
                   dom_urls = await page.locator('img').evaluate_all('''imgs => imgs.flatMap(img => {
                     const values = [img.src, img.currentSrc, img.getAttribute('data-original-uri')];
-                    const srcset = img.srcset || '';
-                    srcset.split(',').forEach(x => values.push(x.trim().split(' ')[0]));
+                    (img.srcset || '').split(',').forEach(x => values.push(x.trim().split(' ')[0]));
                     return values.filter(Boolean);
                   })''')
                   urls.extend(dom_urls)
-
-                  # URLs embedded in page scripts / JSON.
-                  html = await page.content()
-                  patterns = [
-                      r'https://a0\.muscache\.com/im/pictures[^"\\\s<]+',
-                      r'https:\\/\\/a0\.muscache\.com\\/im\\/pictures[^"\s<]+'
-                  ]
-                  for pat in patterns:
+                  for pat in [r'https://a0\.muscache\.com/im/pictures[^"\\\s<]+', r'https:\\/\\/a0\.muscache\.com\\/im\\/pictures[^"\s<]+']:
                       for match in re.findall(pat, html):
                           urls.append(match.replace('\\/', '/'))
+                  urls.extend(await page.evaluate('performance.getEntriesByType("resource").map(x => x.name)'))
 
-                  # Network resources.
-                  resources = await page.evaluate('performance.getEntriesByType("resource").map(x => x.name)')
-                  urls.extend(resources)
-
-                  cleaned = []
-                  seen = set()
+                  cleaned=[]; seen=set()
                   for raw in urls:
-                      if not raw:
+                      u=unquote(str(raw)).replace('\\u002F','/').replace('\\/','/')
+                      if f'Hosting-{LISTING_ID}' not in u:
                           continue
-                      u = unquote(str(raw)).replace('\\u002F', '/').replace('\\/', '/')
-                      if 'a0.muscache.com/im/pictures' not in u:
-                          continue
-                      u = u.split('&amp;')[0]
-                      if '?' in u:
-                          base = u.split('?')[0]
-                          u = base + '?im_w=1200'
-                      else:
-                          u = u + '?im_w=1200'
+                      u=u.split('&amp;')[0]
+                      u=u.split('?')[0]+'?im_w=1200'
                       if u not in seen:
-                          seen.add(u)
-                          cleaned.append(u)
+                          seen.add(u); cleaned.append(u)
 
-                  Path('pattaya-villa-comparison').mkdir(exist_ok=True)
-                  Path('pattaya-villa-comparison/villa3-images.json').write_text(
-                      json.dumps(cleaned[:20], ensure_ascii=False, indent=2), encoding='utf-8'
-                  )
-                  Path('pattaya-villa-comparison/villa3-debug.html').write_text(html, encoding='utf-8')
-                  print(f'Found {len(cleaned)} Airbnb image URLs')
-                  for u in cleaned[:10]:
-                      print(u)
+                  out=Path('pattaya-villa-comparison-final')
+                  out.mkdir(exist_ok=True)
+                  (out/'replacement-villa1-images.json').write_text(json.dumps(cleaned[:30], ensure_ascii=False, indent=2), encoding='utf-8')
+                  (out/'replacement-villa1-text.txt').write_text(title+'\n\n'+text, encoding='utf-8')
+                  print(f'Found {len(cleaned)} images')
+                  print(text[:15000])
                   await browser.close()
 
           asyncio.run(main())
           PY
-
-      - name: Commit extracted URLs
+      - name: Commit extracted data
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add pattaya-villa-comparison/villa3-images.json pattaya-villa-comparison/villa3-debug.html
-          git commit -m 'Extract Airbnb villa 3 image URLs' || exit 0
+          git add pattaya-villa-comparison-final/replacement-villa1-*
+          git commit -m 'Extract replacement villa 1 details' || exit 0
           git push
