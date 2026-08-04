@@ -3,103 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>核印至登入／下單轉換儀表板</title>
-  <meta name="description" content="完成核印至首次登入與首次下單的互動式轉換分析">
-  <style>
-    :root{
-      --bg:#f4f6f9;--panel:#fff;--ink:#162238;--muted:#69758a;--line:#dce2ea;
-      --navy:#183b5b;--blue:#3978a8;--teal:#2c8c85;--gold:#d49632;--red:#bd5b59;
-      --shadow:0 12px 35px rgba(24,59,91,.09);--radius:18px;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.55}
-    button,select{font:inherit}
-    .topbar{background:linear-gradient(135deg,#112f4a,#214f74 62%,#286978);color:white;padding:46px 0 86px}
-    .wrap{width:min(1180px,calc(100% - 32px));margin:auto}
-    .eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;opacity:.72;margin-bottom:10px}
-    h1{font-size:clamp(30px,5vw,52px);line-height:1.12;margin:0 0 14px;letter-spacing:-.03em}
-    .subtitle{max-width:750px;margin:0;color:rgba(255,255,255,.78);font-size:16px}
-    .scopebar{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;align-items:center}
-    .pill{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.10);padding:9px 13px;border-radius:999px;font-size:13px}
-    main{margin-top:-54px;padding-bottom:60px}
-    .toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--radius);padding:14px 16px;margin-bottom:18px}
-    .tabs{display:flex;gap:6px;background:#edf1f5;border-radius:12px;padding:4px}
-    .tab{border:0;background:transparent;color:var(--muted);padding:9px 14px;border-radius:9px;cursor:pointer;font-weight:700}
-    .tab.active{background:white;color:var(--navy);box-shadow:0 2px 10px rgba(24,59,91,.09)}
-    .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    select,.btn{border:1px solid var(--line);background:white;color:var(--ink);padding:9px 12px;border-radius:10px}
-    .btn{cursor:pointer;font-weight:700}
-    .btn:hover{border-color:#9eabb9}
-    .grid{display:grid;gap:18px}
-    .kpis{grid-template-columns:repeat(4,1fr)}
-    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .kpi{padding:22px;min-height:145px;position:relative;overflow:hidden}
-    .kpi:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-36px;top:-38px;background:var(--tone,#3978a8);opacity:.11}
-    .kpi-label{font-size:14px;color:var(--muted);margin-bottom:12px}
-    .kpi-value{font-size:36px;font-weight:800;letter-spacing:-.04em;line-height:1}
-    .kpi-note{font-size:13px;color:var(--muted);margin-top:12px}
-    .two{grid-template-columns:1.1fr .9fr;margin-top:18px}
-    .panel{padding:22px}
-    .panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
-    .panel h2{font-size:19px;margin:0}
-    .panel-desc{font-size:13px;color:var(--muted);margin-top:4px}
-    .chartbox{height:320px}.chartbox svg{width:100%;height:100%;display:block;overflow:visible}
-    .chartbox.small{height:270px}
-    .funnel{display:grid;gap:12px;margin-top:18px}
-    .funnel-row{display:grid;grid-template-columns:112px 1fr 90px;gap:12px;align-items:center}
-    .funnel-label{font-size:14px;color:var(--muted)}
-    .track{height:32px;background:#edf1f5;border-radius:9px;overflow:hidden}
-    .fill{height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .45s ease}
-    .funnel-num{text-align:right;font-weight:800}
-    .insights{margin-top:18px;grid-template-columns:repeat(3,1fr)}
-    .insight{padding:20px}
-    .insight strong{display:block;font-size:16px;margin-bottom:7px}
-    .insight p{margin:0;color:var(--muted);font-size:14px}
-    .table-card{margin-top:18px;overflow:hidden}
-    .table-head{padding:20px 22px 12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-    .table-scroll{overflow:auto}
-    table{width:100%;border-collapse:collapse;min-width:900px}
-    th,td{padding:13px 16px;border-top:1px solid var(--line);text-align:right;font-size:14px;white-space:nowrap}
-    th{color:var(--muted);font-size:12px;letter-spacing:.02em;background:#fafbfc;cursor:pointer;user-select:none}
-    th:first-child,td:first-child{text-align:left}
-    tbody tr:hover{background:#f8fafc}
-    .audit{display:none}
-    .audit.active,.overview.active{display:block}
-    .overview{display:none}
-    .audit-kpis{grid-template-columns:repeat(4,1fr)}
-    .audit .two{grid-template-columns:1fr 1fr}
-    .warning{margin-top:18px;padding:18px 20px;border-radius:14px;border:1px solid #edcf9e;background:#fff9ef;color:#765419}
-    .warning strong{display:block;margin-bottom:5px}
-    .quality-list{display:grid;gap:10px;margin-top:10px}
-    .quality-item{display:flex;justify-content:space-between;gap:18px;padding:11px 0;border-bottom:1px dashed var(--line)}
-    .quality-item:last-child{border:0}
-    .quality-item span:last-child{font-weight:800}
-    .footnote{font-size:12px;color:var(--muted);margin-top:12px}
-    footer{color:var(--muted);font-size:12px;text-align:center;padding:22px}
-    @media(max-width:900px){
-      .kpis,.audit-kpis{grid-template-columns:repeat(2,1fr)}
-      .two,.audit .two,.insights{grid-template-columns:1fr}
-      .toolbar{align-items:flex-start;flex-direction:column}
-      .actions{width:100%}
-      select{flex:1}
-    }
-    @media(max-width:560px){
-      .topbar{padding-top:34px}
-      .kpis,.audit-kpis{grid-template-columns:1fr}
-      .kpi{min-height:122px}
-      .funnel-row{grid-template-columns:88px 1fr 72px}
-      .chartbox{height:280px}
-      .tabs{width:100%}.tab{flex:1}
-    }
-  </style>
+  <title>開戶與下單率變化儀表板</title>
+  <meta name="description" content="完成核印戶數、開戶後登入率與下單率的互動式趨勢分析">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="topbar">
   <div class="wrap">
-    <div class="eyebrow">ACCOUNT CONVERSION ANALYTICS</div>
-    <h1>完成核印至首次登入／下單<br>轉換儀表板</h1>
-    <p class="subtitle">整理雙月 Cohort 的登入與下單轉換，並補上原始資料延遲分布與資料品質檢查。正式 KPI 採用 Excel 摘要表口徑。</p>
+    <div class="eyebrow">ACCOUNT & ORDER CONVERSION</div>
+    <h1>開戶量與下單率<br>變化儀表板</h1>
+    <p class="subtitle">主畫面聚焦各雙月 Cohort 的完成核印戶數、開戶後登入率與登入後下單率，直接比較每期增減、高低點及近期變化。</p>
     <div class="scopebar">
       <span class="pill">分析期間：2025/08/01–2026/07/31</span>
       <span class="pill">正式樣本：2,757 戶</span>
@@ -107,61 +20,53 @@
     </div>
   </div>
 </header>
-
 <main class="wrap">
   <div class="toolbar">
-    <div class="tabs">
-      <button class="tab active" data-target="overview">官方 KPI</button>
-      <button class="tab" data-target="audit">原始資料稽核</button>
-    </div>
-    <div class="actions">
-      <select id="periodSelect" aria-label="選擇分析區間"></select>
-      <button class="btn" id="downloadCsv">下載彙總 CSV</button>
-    </div>
+    <div class="tabs"><button class="tab active" data-target="overview">開戶／下單趨勢</button><button class="tab" data-target="audit">原始資料稽核</button></div>
+    <div class="actions"><select id="periodSelect" aria-label="選擇分析區間"></select><button class="btn" id="downloadCsv">下載趨勢 CSV</button></div>
   </div>
 
   <section class="overview active" id="overview">
+    <div class="focus-note"><strong>口徑說明：</strong>Excel 沒有提供「名單／申請數」作為開戶率分母，因此開戶端以「完成核印戶數」呈現量的變化；下單率以已登入戶數為分母。</div>
     <div class="grid kpis">
-      <article class="card kpi" style="--tone:#183b5b"><div class="kpi-label">完成核印人數</div><div class="kpi-value" id="kpiA">–</div><div class="kpi-note" id="kpiANote">正式 Cohort 母體</div></article>
-      <article class="card kpi" style="--tone:#3978a8"><div class="kpi-label">兩個月內首次登入</div><div class="kpi-value" id="kpiB">–</div><div class="kpi-note" id="kpiBNote">–</div></article>
-      <article class="card kpi" style="--tone:#2c8c85"><div class="kpi-label">至今曾首次登入</div><div class="kpi-value" id="kpiC">–</div><div class="kpi-note" id="kpiCNote">–</div></article>
-      <article class="card kpi" style="--tone:#d49632"><div class="kpi-label">登入後至今曾下單</div><div class="kpi-value" id="kpiE">–</div><div class="kpi-note" id="kpiENote">–</div></article>
+      <article class="card kpi" style="--tone:#183b5b"><div class="kpi-label">完成核印戶數（開戶量）</div><div class="kpi-value" id="kpiA">–</div><div class="kpi-note" id="kpiANote">–</div></article>
+      <article class="card kpi" style="--tone:#3978a8"><div class="kpi-label">兩個月內登入率 B/A</div><div class="kpi-value" id="kpiBRate">–</div><div class="kpi-note" id="kpiBNote">–</div></article>
+      <article class="card kpi" style="--tone:#d49632"><div class="kpi-label">兩個月內下單率 D/C</div><div class="kpi-value" id="kpiDRate">–</div><div class="kpi-note" id="kpiDNote">–</div></article>
+      <article class="card kpi" style="--tone:#2c8c85"><div class="kpi-label">至今下單率 E/C</div><div class="kpi-value" id="kpiERate">–</div><div class="kpi-note" id="kpiENote">–</div></article>
     </div>
 
     <div class="grid two">
       <article class="card panel">
-        <div class="panel-head"><div><h2>轉換率趨勢</h2><div class="panel-desc">各雙月 Cohort 的登入與下單轉換</div></div></div>
-        <div class="chartbox" id="rateChart"></div>
+        <div class="panel-head"><div><h2>完成核印戶數變化</h2><div class="panel-desc">以完成核印戶數代表各期開戶量，柱頂顯示較前期增減</div></div></div>
+        <div class="chartbox large" id="accountChart"></div>
       </article>
       <article class="card panel">
-        <div class="panel-head"><div><h2>所選區間漏斗</h2><div class="panel-desc">下單率以曾登入人數為分母</div></div></div>
-        <div class="funnel">
-          <div class="funnel-row"><span class="funnel-label">完成核印</span><div class="track"><div class="fill" id="fA"></div></div><span class="funnel-num" id="fAText"></span></div>
-          <div class="funnel-row"><span class="funnel-label">曾登入</span><div class="track"><div class="fill" id="fC"></div></div><span class="funnel-num" id="fCText"></span></div>
-          <div class="funnel-row"><span class="funnel-label">兩月內下單</span><div class="track"><div class="fill" id="fD"></div></div><span class="funnel-num" id="fDText"></span></div>
-          <div class="funnel-row"><span class="funnel-label">至今曾下單</span><div class="track"><div class="fill" id="fE"></div></div><span class="funnel-num" id="fEText"></span></div>
-        </div>
-        <p class="footnote">近期 Cohort 的「至今曾下單」觀察時間較短，跨期比較需注意成熟度差異。</p>
+        <div class="panel-head"><div><h2>登入後下單率變化</h2><div class="panel-desc">D/C 為兩個月內下單率；E/C 為截至更新日的累計下單率</div></div></div>
+        <div class="chartbox large" id="orderRateChart"></div>
       </article>
     </div>
 
+    <article class="card panel wide">
+      <div class="panel-head"><div><h2>開戶後登入率變化</h2><div class="panel-desc">兩個月內登入率與截至更新日的累計登入率；縱軸放大至 68%–88% 以凸顯期別差異</div></div></div>
+      <div class="chartbox" id="loginRateChart"></div>
+      <div class="change-strip">
+        <div class="change-item"><div class="label">最新開戶量較前期</div><div class="value" id="latestAccountChange">–</div><div class="sub" id="latestAccountSub">–</div></div>
+        <div class="change-item"><div class="label">最新兩月內下單率較前期</div><div class="value" id="latestOrderChange">–</div><div class="sub" id="latestOrderSub">–</div></div>
+        <div class="change-item"><div class="label">最新兩月內登入率較前期</div><div class="value" id="latestLoginChange">–</div><div class="sub" id="latestLoginSub">–</div></div>
+      </div>
+    </article>
+
     <div class="grid insights">
-      <article class="card insight"><strong>登入主要卡點在 2025/10–11</strong><p>兩個月內登入率 71.7%，為六個 Cohort 最低，比整體 76.5% 少 4.8 個百分點。</p></article>
-      <article class="card insight"><strong>登入後的長期下單率約四成</strong><p>整體 E/C 為 40.9%。成熟 Cohort 約落在 43%–48%，近期香港仍有右設限效應。</p></article>
-      <article class="card insight"><strong>2026/06–07 登入速度改善</strong><p>兩個月內登入率達 79.0%，但「至今下單」仍須等待後續觀察，暫不宜判定轉換惡化。</p></article>
+      <article class="card insight"><strong>開戶量高峰已過</strong><p id="insightAccount">–</p></article>
+      <article class="card insight"><strong>短期下單率近期回升</strong><p id="insightOrder">–</p></article>
+      <article class="card insight"><strong>累計下單率需看成熟度</strong><p id="insightMaturity">–</p></article>
     </div>
 
     <article class="card table-card">
-      <div class="table-head"><div><h2 style="margin:0;font-size:19px">雙月 Cohort 明細</h2><div class="panel-desc">點擊欄名可排序</div></div></div>
-      <div class="table-scroll">
-        <table id="cohortTable">
-          <thead><tr>
-            <th data-key="period">區間</th><th data-key="A">核印 A</th><th data-key="B">兩月內登入 B</th><th data-key="B_rate">B/A</th>
-            <th data-key="C">至今登入 C</th><th data-key="C_rate">C/A</th><th data-key="D">兩月內下單 D</th><th data-key="D_rate_C">D/C</th>
-            <th data-key="E">至今下單 E</th><th data-key="E_rate_C">E/C</th>
-          </tr></thead><tbody></tbody>
-        </table>
-      </div>
+      <div class="table-head"><div><h2 style="margin:0;font-size:19px">各期變化明細</h2><div class="panel-desc">直接列出較前期增減；點擊欄名可排序</div></div></div>
+      <div class="table-scroll"><table id="cohortTable"><thead><tr>
+        <th data-key="period">區間</th><th data-key="A">開戶量</th><th data-key="A_delta">較前期</th><th data-key="B_rate">兩月登入率</th><th data-key="B_delta">增減 pp</th><th data-key="D_rate_C">兩月下單率</th><th data-key="D_delta">增減 pp</th><th data-key="E_rate_C">至今下單率</th><th data-key="E_delta">增減 pp</th>
+      </tr></thead><tbody></tbody></table></div>
     </article>
   </section>
 
@@ -172,184 +77,21 @@
       <article class="card kpi" style="--tone:#d49632"><div class="kpi-label">下單中位時間</div><div class="kpi-value" id="orderMedian">–</div><div class="kpi-note">核印至首次申購</div></article>
       <article class="card kpi" style="--tone:#bd5b59"><div class="kpi-label">異常時序筆數</div><div class="kpi-value" id="anomalyCount">–</div><div class="kpi-note">登入早於核印＋下單早於登入</div></article>
     </div>
-
     <div class="grid two">
-      <article class="card panel">
-        <div class="panel-head"><div><h2>核印至首次登入時間</h2><div class="panel-desc">72.4% 的有效登入發生在 3 日內</div></div></div>
-        <div class="chartbox small" id="loginDelayChart"></div>
-      </article>
-      <article class="card panel">
-        <div class="panel-head"><div><h2>核印至首次下單時間</h2><div class="panel-desc">中位數 14 日，約半數在兩週內完成</div></div></div>
-        <div class="chartbox small" id="orderDelayChart"></div>
-      </article>
+      <article class="card panel"><div class="panel-head"><div><h2>核印至首次登入時間</h2><div class="panel-desc">72.4% 的有效登入發生在 3 日內</div></div></div><div class="chartbox small" id="loginDelayChart"></div></article>
+      <article class="card panel"><div class="panel-head"><div><h2>核印至首次下單時間</h2><div class="panel-desc">中位數 14 日，約半數在兩週內完成</div></div></div><div class="chartbox small" id="orderDelayChart"></div></article>
     </div>
-
     <div class="grid two">
-      <article class="card panel">
-        <div class="panel-head"><div><h2>原始月度轉換</h2><div class="panel-desc">直接依 row-level 時間欄位重算，僅供趨勢稽核</div></div></div>
-        <div class="chartbox" id="monthlyChart"></div>
-      </article>
-      <article class="card panel">
-        <div class="panel-head"><div><h2>資料品質檢查</h2><div class="panel-desc">不公開戶號，僅呈現異常數量</div></div></div>
-        <div class="quality-list">
-          <div class="quality-item"><span>重複戶號</span><span id="qDup"></span></div>
-          <div class="quality-item"><span>登入早於核印</span><span id="qLoginBefore"></span></div>
-          <div class="quality-item"><span>下單早於登入</span><span id="qOrderBefore"></span></div>
-          <div class="quality-item"><span>有下單、無登入紀錄</span><span id="qNoLogin"></span></div>
-          <div class="quality-item"><span>摘要 C 與原始登入差異</span><span id="qLoginDiff"></span></div>
-          <div class="quality-item"><span>摘要 E 與原始下單差異</span><span id="qOrderDiff"></span></div>
-        </div>
-      </article>
+      <article class="card panel"><div class="panel-head"><div><h2>原始月度轉換</h2><div class="panel-desc">直接依 row-level 時間欄位重算，僅供趨勢稽核</div></div></div><div class="chartbox" id="monthlyChart"></div></article>
+      <article class="card panel"><div class="panel-head"><div><h2>資料品質檢查</h2><div class="panel-desc">不公開戶號，僅呈現異常數量</div></div></div><div class="quality-list">
+        <div class="quality-item"><span>重複戶號</span><span id="qDup"></span></div><div class="quality-item"><span>登入早於核印</span><span id="qLoginBefore"></span></div><div class="quality-item"><span>下單早於登入</span><span id="qOrderBefore"></span></div><div class="quality-item"><span>有下單、無登入紀錄</span><span id="qNoLogin"></span></div><div class="quality-item"><span>摘要 C 與原始登入差異</span><span id="qLoginDiff"></span></div><div class="quality-item"><span>摘要 E 與原始下單差異</span><span id="qOrderDiff"></span></div>
+      </div></article>
     </div>
-
-    <div class="warning">
-      <strong>口徑提醒</strong>
-      摘要表的 C、E 與原始欄位「是否有時間」直接重算結果不完全一致，代表正式報表可能另含截止日、有效交易或帳戶狀態規則。網頁的主 KPI 保留摘要表數字，原始重算只用於稽核與找問題。
-    </div>
+    <div class="warning"><strong>口徑提醒</strong>摘要表的 C、E 與原始時間欄位直接重算結果不完全一致，正式 KPI 保留摘要表數字，原始重算只用於稽核與找問題。</div>
   </section>
 </main>
 <footer>資料來源：11507084.xlsx　｜　本頁僅含彙總統計，未公開戶號與個別時間資料。</footer>
-
-<script>
-const DATA = {"official":[{"period":"2025/08–09","start":"2025-08-01","end":"2025-09-30","A":348,"B":269,"B_rate":0.7729885057471264,"C":295,"C_rate":0.8477011494252874,"D":82,"D_rate_C":0.27796610169491526,"E":128,"E_rate_C":0.43389830508474575},{"period":"2025/10–11","start":"2025-10-01","end":"2025-11-30","A":417,"B":299,"B_rate":0.7170263788968825,"C":335,"C_rate":0.8033573141486811,"D":103,"D_rate_C":0.3074626865671642,"E":160,"E_rate_C":0.47761194029850745},{"period":"2025/12–2026/01","start":"2025-12-01","end":"2026-01-31","A":555,"B":430,"B_rate":0.7747747747747747,"C":466,"C_rate":0.8396396396396396,"D":140,"D_rate_C":0.30042918454935624,"E":218,"E_rate_C":0.4678111587982833},{"period":"2026/02–03","start":"2026-02-01","end":"2026-03-31","A":544,"B":417,"B_rate":0.7665441176470589,"C":449,"C_rate":0.8253676470588235,"D":124,"D_rate_C":0.27616926503340755,"E":182,"E_rate_C":0.4053452115812918},{"period":"2026/04–05","start":"2026-04-01","end":"2026-05-31","A":459,"B":350,"B_rate":0.7625272331154684,"C":376,"C_rate":0.8191721132897604,"D":95,"D_rate_C":0.2526595744680851,"E":132,"E_rate_C":0.35106382978723405},{"period":"2026/06–07","start":"2026-06-01","end":"2026-07-31","A":434,"B":343,"B_rate":0.7903225806451613,"C":343,"C_rate":0.7903225806451613,"D":103,"D_rate_C":0.30029154518950435,"E":106,"E_rate_C":0.30903790087463556}],"officialTotals":{"A":2757,"B":2108,"C":2264,"D":647,"E":926},"monthly":[{"period":"2025/08","A":132,"login":116,"login_rate":0.8787878787878788,"order":67,"order_rate":0.5075757575757576,"order_given_login":0.5431034482758621},{"period":"2025/09","A":216,"login":179,"login_rate":0.8287037037037037,"order":81,"order_rate":0.375,"order_given_login":0.41899441340782123},{"period":"2025/10","A":157,"login":129,"login_rate":0.821656050955414,"order":75,"order_rate":0.47770700636942676,"order_given_login":0.5116279069767442},{"period":"2025/11","A":260,"login":206,"login_rate":0.7923076923076923,"order":115,"order_rate":0.4423076923076923,"order_given_login":0.4563106796116505},{"period":"2025/12","A":228,"login":193,"login_rate":0.8464912280701754,"order":110,"order_rate":0.4824561403508772,"order_given_login":0.5284974093264249},{"period":"2026/01","A":327,"login":274,"login_rate":0.8379204892966361,"order":136,"order_rate":0.41590214067278286,"order_given_login":0.45255474452554745},{"period":"2026/02","A":262,"login":219,"login_rate":0.8358778625954199,"order":116,"order_rate":0.44274809160305345,"order_given_login":0.4885844748858447},{"period":"2026/03","A":282,"login":230,"login_rate":0.8156028368794326,"order":91,"order_rate":0.32269503546099293,"order_given_login":0.3739130434782609},{"period":"2026/04","A":209,"login":173,"login_rate":0.8277511961722488,"order":73,"order_rate":0.3492822966507177,"order_given_login":0.3815028901734104},{"period":"2026/05","A":250,"login":203,"login_rate":0.812,"order":77,"order_rate":0.308,"order_given_login":0.3448275862068966},{"period":"2026/06","A":227,"login":191,"login_rate":0.8414096916299559,"order":73,"order_rate":0.32158590308370044,"order_given_login":0.3612565445026178},{"period":"2026/07","A":207,"login":153,"login_rate":0.7391304347826086,"order":35,"order_rate":0.16908212560386474,"order_given_login":0.22875816993464052}],"rawAudit":{"rawRows":2941,"officialScopeRows":2757,"excludedBeforeScope":184,"duplicateAccounts":0,"loginBeforeSeal":3,"orderBeforeLogin":80,"orderWithoutLogin":50,"rawEverLogin":2266,"rawEverOrder":1049,"summaryEverLogin":2264,"summaryEverOrder":926},"delayStats":{"login":{"n":2263,"median":1.3958333333333333,"p75":4.8590277777777775,"p90":10.933888888888887,"mean":6.089958634064909},"order":{"n":1049,"median":14.0,"p75":33.0,"p90":64.0,"mean":27.8093422306959},"afterlogin":{"n":919,"median":11.813194444444445,"p75":27.813541666666666,"p90":56.204305555555564,"mean":24.000195713940272}},"loginBuckets":[{"label":"當日","count":978},{"label":"1–3 日","count":661},{"label":"4–7 日","count":338},{"label":"8–14 日","count":123},{"label":"15–30 日","count":79},{"label":"31–60 日","count":50},{"label":"60 日以上","count":34}],"orderBuckets":[{"label":"0–7 日","count":349},{"label":"8–14 日","count":180},{"label":"15–30 日","count":229},{"label":"31–60 日","count":174},{"label":"61–90 日","count":60},{"label":"91–180 日","count":39},{"label":"180 日以上","count":18}],"meta":{"file":"11507084.xlsx","scope":"2025/08/01–2026/07/31","generated":"2026/08/03","privacy":"本頁僅包含彙總統計，未公開戶號與個別行為時間。"}};
-const fmt = new Intl.NumberFormat('zh-TW');
-const pc = v => `${(v*100).toFixed(1)}%`;
-const n = v => fmt.format(Math.round(v));
-let sortKey = 'period', sortAsc = true;
-
-const colors = {navy:'#183b5b',blue:'#3978a8',teal:'#2c8c85',gold:'#d49632',red:'#bd5b59',grid:'#e4e8ee',text:'#69758a'};
-const NS='http://www.w3.org/2000/svg';
-const el=(tag,attrs={},text='')=>{const x=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>x.setAttribute(k,v));if(text)x.textContent=text;return x};
-const svgTitle=(node,text)=>node.appendChild(el('title',{},text));
-
-function populateSelector(){
-  const s=document.getElementById('periodSelect');
-  s.innerHTML='<option value="all">全部期間</option>'+DATA.official.map((r,i)=>`<option value="${i}">${r.period}</option>`).join('');
-  s.addEventListener('change',updateKpis);
-}
-function selectedRow(){
-  const v=document.getElementById('periodSelect').value;
-  if(v==='all'){
-    const t=DATA.officialTotals;
-    return {period:'全部期間',A:t.A,B:t.B,B_rate:t.B/t.A,C:t.C,C_rate:t.C/t.A,D:t.D,D_rate_C:t.D/t.C,E:t.E,E_rate_C:t.E/t.C};
-  }
-  return DATA.official[Number(v)];
-}
-function updateKpis(){
-  const r=selectedRow();
-  document.getElementById('kpiA').textContent=n(r.A);
-  document.getElementById('kpiB').textContent=n(r.B);
-  document.getElementById('kpiC').textContent=n(r.C);
-  document.getElementById('kpiE').textContent=n(r.E);
-  document.getElementById('kpiBNote').textContent=`登入率 ${pc(r.B_rate)}`;
-  document.getElementById('kpiCNote').textContent=`核印至登入 ${pc(r.C_rate)}`;
-  document.getElementById('kpiENote').textContent=`已登入者下單率 ${pc(r.E_rate_C)}`;
-  const width=v=>`${Math.max(3,Math.min(100,v*100))}%`;
-  fA.style.width='100%'; fC.style.width=width(r.C/r.A); fD.style.width=width(r.D/r.A); fE.style.width=width(r.E/r.A);
-  fAText.textContent=n(r.A); fCText.textContent=`${n(r.C)} · ${pc(r.C/r.A)}`; fDText.textContent=`${n(r.D)} · ${pc(r.D/r.C)}`; fEText.textContent=`${n(r.E)} · ${pc(r.E/r.C)}`;
-}
-function lineChart(containerId,labels,series,yMax=100){
-  const box=document.getElementById(containerId);box.innerHTML='';
-  const W=860,H=320,m={l:48,r:18,t:34,b:62},iw=W-m.l-m.r,ih=H-m.t-m.b;
-  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'趨勢圖'});
-  for(let i=0;i<=4;i++){
-    const val=yMax*i/4,y=m.t+ih-(val/yMax)*ih;
-    svg.appendChild(el('line',{x1:m.l,y1:y,x2:W-m.r,y2:y,stroke:colors.grid,'stroke-width':1}));
-    svg.appendChild(el('text',{x:m.l-9,y:y+4,'text-anchor':'end','font-size':11,fill:colors.text},`${Math.round(val)}%`));
-  }
-  labels.forEach((lab,i)=>{
-    const x=m.l+(labels.length===1?iw/2:i*iw/(labels.length-1));
-    svg.appendChild(el('text',{x,y:H-20,'text-anchor':'middle','font-size':11,fill:colors.text},lab));
-  });
-  series.forEach((ser,si)=>{
-    const pts=ser.data.map((v,i)=>[m.l+(labels.length===1?iw/2:i*iw/(labels.length-1)),m.t+ih-(v/yMax)*ih]);
-    svg.appendChild(el('polyline',{points:pts.map(p=>p.join(',')).join(' '),fill:'none',stroke:ser.color,'stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'}));
-    pts.forEach((p,i)=>{
-      const c=el('circle',{cx:p[0],cy:p[1],r:5,fill:'#fff',stroke:ser.color,'stroke-width':3});
-      svgTitle(c,`${labels[i]}｜${ser.label}：${ser.data[i].toFixed(1)}%`);svg.appendChild(c);
-    });
-    const lx=m.l+si*190;
-    svg.appendChild(el('line',{x1:lx,y1:14,x2:lx+24,y2:14,stroke:ser.color,'stroke-width':4,'stroke-linecap':'round'}));
-    svg.appendChild(el('text',{x:lx+31,y:18,'font-size':12,fill:colors.text},ser.label));
-  });
-  box.appendChild(svg);
-}
-function barChart(containerId,labels,values,color){
-  const box=document.getElementById(containerId);box.innerHTML='';
-  const W=760,H=270,m={l:48,r:14,t:18,b:58},iw=W-m.l-m.r,ih=H-m.t-m.b,max=Math.max(...values)*1.12;
-  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'分布長條圖'});
-  for(let i=0;i<=4;i++){
-    const val=max*i/4,y=m.t+ih-(val/max)*ih;
-    svg.appendChild(el('line',{x1:m.l,y1:y,x2:W-m.r,y2:y,stroke:colors.grid,'stroke-width':1}));
-    svg.appendChild(el('text',{x:m.l-9,y:y+4,'text-anchor':'end','font-size':11,fill:colors.text},Math.round(val)));
-  }
-  const gap=10,bw=(iw-gap*(labels.length-1))/labels.length;
-  labels.forEach((lab,i)=>{
-    const h=(values[i]/max)*ih,x=m.l+i*(bw+gap),y=m.t+ih-h;
-    const r=el('rect',{x,y,width:bw,height:h,rx:7,fill:color});
-    svgTitle(r,`${lab}：${values[i]} 戶`);svg.appendChild(r);
-    svg.appendChild(el('text',{x:x+bw/2,y:H-22,'text-anchor':'middle','font-size':11,fill:colors.text},lab));
-  });
-  box.appendChild(svg);
-}
-function buildCharts(){
-  lineChart('rateChart',DATA.official.map(r=>r.period),[
-    {label:'兩月內登入 B/A',data:DATA.official.map(r=>r.B_rate*100),color:colors.blue},
-    {label:'至今登入 C/A',data:DATA.official.map(r=>r.C_rate*100),color:colors.teal},
-    {label:'至今下單 E/C',data:DATA.official.map(r=>r.E_rate_C*100),color:colors.gold}
-  ]);
-  barChart('loginDelayChart',DATA.loginBuckets.map(x=>x.label),DATA.loginBuckets.map(x=>x.count),colors.blue);
-  barChart('orderDelayChart',DATA.orderBuckets.map(x=>x.label),DATA.orderBuckets.map(x=>x.count),colors.gold);
-  lineChart('monthlyChart',DATA.monthly.map(x=>x.period),[
-    {label:'原始登入率',data:DATA.monthly.map(x=>x.login_rate*100),color:colors.teal},
-    {label:'原始下單率',data:DATA.monthly.map(x=>x.order_rate*100),color:colors.gold}
-  ]);
-}
-function renderTable(){
-  const rows=[...DATA.official].sort((a,b)=>{
-    const av=a[sortKey],bv=b[sortKey];
-    if(typeof av==='string') return sortAsc?av.localeCompare(bv):bv.localeCompare(av);
-    return sortAsc?av-bv:bv-av;
-  });
-  document.querySelector('#cohortTable tbody').innerHTML=rows.map(r=>`<tr>
-    <td>${r.period}</td><td>${n(r.A)}</td><td>${n(r.B)}</td><td>${pc(r.B_rate)}</td><td>${n(r.C)}</td><td>${pc(r.C_rate)}</td>
-    <td>${n(r.D)}</td><td>${pc(r.D_rate_C)}</td><td>${n(r.E)}</td><td>${pc(r.E_rate_C)}</td></tr>`).join('');
-}
-function bindTableSort(){
-  document.querySelectorAll('#cohortTable th').forEach(th=>th.addEventListener('click',()=>{
-    const k=th.dataset.key;if(sortKey===k)sortAsc=!sortAsc;else{sortKey=k;sortAsc=true}renderTable();
-  }));
-}
-function populateAudit(){
-  const a=DATA.rawAudit,d=DATA.delayStats;
-  rawRows.textContent=n(a.rawRows);
-  loginMedian.textContent=`${d.login.median.toFixed(1)} 日`;
-  orderMedian.textContent=`${d.order.median.toFixed(0)} 日`;
-  anomalyCount.textContent=n(a.loginBeforeSeal+a.orderBeforeLogin);
-  qDup.textContent=n(a.duplicateAccounts);
-  qLoginBefore.textContent=n(a.loginBeforeSeal);
-  qOrderBefore.textContent=n(a.orderBeforeLogin);
-  qNoLogin.textContent=n(a.orderWithoutLogin);
-  qLoginDiff.textContent=`${a.rawEverLogin-a.summaryEverLogin>=0?'+':''}${n(a.rawEverLogin-a.summaryEverLogin)}`;
-  qOrderDiff.textContent=`${a.rawEverOrder-a.summaryEverOrder>=0?'+':''}${n(a.rawEverOrder-a.summaryEverOrder)}`;
-}
-function bindTabs(){
-  document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.overview,.audit').forEach(x=>x.classList.remove('active'));
-    document.getElementById(btn.dataset.target).classList.add('active');
-  }));
-}
-function downloadCsv(){
-  const h=['區間','完成核印A','兩月內登入B','B/A','至今登入C','C/A','兩月內下單D','D/C','至今下單E','E/C'];
-  const rows=DATA.official.map(r=>[r.period,r.A,r.B,pc(r.B_rate),r.C,pc(r.C_rate),r.D,pc(r.D_rate_C),r.E,pc(r.E_rate_C)]);
-  const csv='﻿'+[h,...rows].map(row=>row.join(',')).join('\n');
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='核印登入下單_雙月彙總.csv';a.click();URL.revokeObjectURL(url);
-}
-populateSelector(); buildCharts(); renderTable(); bindTableSort(); populateAudit(); bindTabs(); updateKpis();
-document.getElementById('downloadCsv').addEventListener('click',downloadCsv);
-</script>
+<script src="data.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
