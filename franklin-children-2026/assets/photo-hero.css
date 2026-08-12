@@ -1,1 +1,1 @@
-.photo-hero{background-image:url('./images/hero-parent-child.webp')!important;background-size:cover;background-repeat:no-repeat;background-position:66% 50%;background-color:#f5e4d4}@media(max-width:680px){.photo-hero{background-position:62% 50%}}
+.photo-hero{background-image:none!important;background-size:cover;background-repeat:no-repeat;background-position:66% 50%;background-color:#f5e4d4}@media(max-width:680px){.photo-hero{background-position:62% 50%}}
