@@ -1,0 +1,8 @@
+@import url('./style-1.css');
+@import url('./style-2.css');
+@import url('./style-3.css');
+@import url('./style-4.css');
+@import url('./style-5.css');
+
+/* Photo presentation layer */
+.photo-frame{background-size:cover;background-position:center;background-repeat:no-repeat}
