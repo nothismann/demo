@@ -1,4 +1,5 @@
 (()=>{
+    const loadHero=async()=>{const hero=document.querySelector('.photo-hero');if(!hero)return;try{const files=Array.from({length:10},(_,i)=>`assets/hero-b64/part-${String(i).padStart(2,'0')}.txt`);const parts=await Promise.all(files.map(async f=>{const r=await fetch(f,{cache:'force-cache'});if(!r.ok)throw new Error(`${f}:${r.status}`);return(await r.text()).trim()}));const b64=parts.join('');const bin=atob(b64);const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);const url=URL.createObjectURL(new Blob([bytes],{type:'image/webp'}));hero.style.setProperty('background-image',`url("${url}")`,'important');hero.classList.add('hero-loaded')}catch(e){console.warn('Hero image load failed',e)}};loadHero();
     const money = new Intl.NumberFormat('zh-TW',{style:'currency',currency:'TWD',maximumFractionDigits:0});
     const num = new Intl.NumberFormat('zh-TW');
     const monthly=document.getElementById('monthly'), years=document.getElementById('years'), rate=document.getElementById('rate');
