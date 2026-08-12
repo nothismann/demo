@@ -1,0 +1,1 @@
+Image assets for Franklin children landing page.
