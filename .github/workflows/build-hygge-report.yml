@@ -21,7 +21,7 @@ jobs:
         run: |
           set -euo pipefail
           cd hygge-hug-2026-08-report
-          cat report.part1.txt report.part2.txt report.part3.txt | tr -d '\r\n\t ' > report.b64
+          cat report.part1.txt report.part2.txt report.part3a.txt report.part3b.txt report.part3c.txt report.part3d.txt report.part3e.txt report.part3f.txt report.part3g.txt report.part3h.txt | tr -d '\r\n\t ' > report.b64
           base64 -d report.b64 > report.gz
           gzip -dc report.gz > index.html
           rm -f report.b64 report.gz
