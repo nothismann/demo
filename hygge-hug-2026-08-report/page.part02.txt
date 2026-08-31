@@ -1,0 +1,110 @@
+button class="model-tab" data-model="點擊後轉換（最嚴格）"><b>點擊後 7 天</b><small>直接轉換參考｜ROAS 3.20</small></button>
+      <button class="model-tab" data-model="增幅歸因轉換（增幅歸因）"><b>Meta 增幅估算</b><small>補充參考｜ROAS 4.22</small></button>
+    </div>
+    <div>
+      <div class="model-main"><small id="modelLabel">8 月增幅歸因營收</small><span id="modelRevenue">NT$416,408</span></div>
+      <div class="model-stats"><div><span>花費</span><strong id="modelSpend">NT$95,893</strong></div><div><span>購買</span><strong id="modelPurchases">202</strong></div><div><span>ROAS</span><strong id="modelRoas">4.34</strong></div></div>
+      <div class="compare-box"><div><span class="muted">與目前選擇的 7 月相比</span><br><b id="modelRevDelta">-25.5%</b><p id="modelCompareNote">完整 7 月受到團購高峰拉高；切換到排除團購後，可更清楚看到 8 月廣告營收的成長幅度。</p></div><div><span class="muted">8 月 CPA</span><br><b id="modelCpa">NT$475</b><p>點擊後 7 天可用來確認較嚴格的直接轉換效率。</p></div></div>
+    </div>
+  </div>
+  <div class="source">期間：2026/8/1 至 8/30。完整比較為 2026/7/1 至 7/30；可比版本排除 7/18、7/19。Meta 整體成效主要看增幅歸因 ROAS 4.34，點擊後 7 天用來交叉查看直接轉換。來源：Meta 原始帳戶資料、meta_model_comparison.csv。</div>
+</div></section>
+
+<section class="section soft" id="compare"><div class="wrap">
+  <div class="chapter">02 月度比較</div><h2>把團購高峰拆開後，8 月的規模成長更清楚</h2>
+  <p class="lead">完整 7 月保留團購高峰，呈現實際整月結果；排除 7/18、7/19 後，則更適合比較日常投放。上方切換會同步更新本頁與 GA4 全站數字。</p>
+  <div class="metric-grid" style="margin-top:40px">
+    <div class="metric-card"><span>8 月花費</span><strong>NT$95,893</strong><small id="spendDelta" class="up">+72.4%</small></div>
+    <div class="metric-card"><span>8 月增幅歸因購買</span><strong>202</strong><small id="purchaseDelta" class="down">-21.1%</small></div>
+    <div class="metric-card"><span>8 月增幅歸因營收</span><strong>NT$416,408</strong><small id="revenueDelta" class="down">-25.5%</small></div>
+    <div class="metric-card"><span>8 月增幅歸因 ROAS</span><strong>4.34</strong><small id="roasDelta" class="down">-56.8%</small></div>
+  </div>
+  <p class="statement" id="compareStatement">完整 7 月包含 7/18、7/19 團購高峰，因此 8 月和完整月相比時，營收與 ROAS 都受到高基期影響。</p>
+  <div class="insight-band"><div><h3>排除團購後，8 月廣告規模明顯放大</h3><p>排除團購高峰後，增幅歸因營收由 NT$314,712 增至 NT$416,408，購買由 136 筆增至 202 筆，營收 +32.3%、購買 +48.5%。ROAS 從 6.33 降至 4.34，顯示放量後回收效率下降。點擊後 7 天 ROAS 為 3.20，和可比 7 月的 3.27 接近，直接點擊轉換效率相對穩定。</p></div><div class="bigcall"><strong>+32.3%</strong><span>8 月增幅歸因營收，相較排除團購後 7 月</span></div></div>
+  <div class="source">Meta 整體成效主要看增幅歸因，點擊後 7 天用來補充直接轉換。來源：Meta 原始帳戶資料、meta_model_comparison.csv、meta_august_analysis.json。團購校正僅用於比較，完整 7 月數字仍保留。</div>
+</div></section>
+
+<section class="section" id="daily"><div class="wrap">
+  <div class="section-head"><div><div class="chapter">03 日別趨勢</div><h2>8 月中後段量體拉高，單日表現仍有明顯波動</h2></div><p>圖表預設顯示增幅歸因，也可切換點擊後 7 天查看較嚴格的直接轉換。</p></div>
+  <div class="controls" style="margin-bottom:10px"><button class="chip daily-model active" data-dmodel="META 預設（最寬鬆）">增幅歸因</button><button class="chip daily-model" data-dmodel="點擊後轉換（最嚴格）">點擊後 7 天</button><button class="chip daily-model" data-dmodel="增幅歸因轉換（增幅歸因）">Meta 增幅估算</button></div>
+  <div class="controls" style="margin-bottom:18px"><button class="chip daily-metric active" data-metric="revenue">營收</button><button class="chip daily-metric" data-metric="spend">花費</button><button class="chip daily-metric" data-metric="purchases">購買</button><button class="chip daily-metric" data-metric="roas">ROAS</button></div>
+  <div class="chart-card"><svg id="dailyChart" viewBox="0 0 1000 330" preserveAspectRatio="none" aria-label="8月日別趨勢圖"></svg><div class="chart-note"><span id="chartCaption">增幅歸因｜日別營收</span><span>8/20：NT$29,715，ROAS 6.27。8/10：NT$1,107，ROAS 0.31。</span></div></div>
+  <div class="week-grid"><div class="week"><span>8/1 至 8/7</span><b>ROAS 4.34</b><span>營收 NT$88,551</span></div><div class="week"><span>8/8 至 8/14</span><b>ROAS 4.12</b><span>營收 NT$80,276</span></div><div class="week"><span>8/15 至 8/21</span><b>ROAS 4.81</b><span>營收 NT$125,039</span></div><div class="week"><span>8/22 至 8/30</span><b>ROAS 4.08</b><span>營收 NT$122,543</span></div></div>
+  <div class="source">期間：2026/8/1 至 8/30。日別圖預設採增幅歸因，並可切換點擊後 7 天查看直接轉換。來源：meta_august_analysis.json、Meta 原始帳戶資料。</div>
+</div></section>
+
+<section class="section dark" id="ga4"><div class="wrap">
+  <div class="chapter">04 GA4 全站</div><h2>排除團購高峰後，8 月全站流量、營收與購買都比 7 月成長</h2>
+  <p class="lead">完整 7 月受到團購活動明顯拉高，直接月對月比較時，8 月工作階段、購買與營收都會大幅下降。排除 7/18、7/19 後，8 月工作階段 +17.3%、購買 +13.1%、總營收 +12.2%，全站日常營運規模其實比 7 月高。</p>
+  <div class="metric-grid" style="margin-top:36px">
+    <div class="metric-card"><span>8 月工作階段</span><strong>26,281</strong><small id="gaSessionsDelta" class="down">-16.5%</small></div>
+    <div class="metric-card"><span>8 月總營收</span><strong>NT$726,460</strong><small id="gaRevenueDelta" class="down">-52.4%</small></div>
+    <div class="metric-card"><span>8 月購買</span><strong>345</strong><small id="gaPurchaseDelta" class="down">-52.9%</small></div>
+    <div class="metric-card"><span>互動率／平均工作階段</span><strong>60.6%</strong><small class="flat">181.2 秒</small></div>
+  </div>
+  <p class="statement" id="gaStatement">相較完整 7 月，8 月總營收減少 52.4%。這段落差受到 7/18、7/19 團購高峰明顯影響，因此需要搭配排除高峰後的可比數字一起看。</p>
+  <div class="compare-box"><div><span class="muted">完整 7 月互動表現</span><br><b>61.6%</b><p>互動率。平均工作階段 200.5 秒；8 月互動率接近，平均工作階段時間則縮短 9.7%。</p></div><div><span class="muted">7 月排除團購後</span><br><b>22,407 工作階段</b><p>總營收 NT$647,192、305 筆購買。切換到可比版本後，8 月工作階段、營收與購買皆高於 7 月。</p></div></div>
+  <div class="source">口徑：GA4 全站。來源：ga4_august_analysis.json。排除團購版本包含工作階段、互動工作階段、購買與營收；平均工作階段時間仍以完整 7 月對照。</div>
+</div></section>
+
+<section class="section soft" id="channels"><div class="wrap">
+  <div class="chapter">05 渠道表現</div><h2>Meta 廣告流量成長最明顯，Direct 與 Instagram 社群低於 7 月</h2>
+  <div class="channel-grid" style="margin-top:36px">
+    <div class="channel-card"><header><b>Meta 廣告來源</b><strong class="up">+51.7%</strong></header><p>13,114 工作階段，55 筆購買，購買營收 NT$113,743。相較完整 7 月，營收 +42.1%，購買由 30 筆增至 55 筆。</p><div class="bar"><i style="width:100%"></i></div></div>
+    <div class="channel-card"><header><b>Direct</b><strong class="down">-17.8%</strong></header><p>4,285 工作階段，133 筆購買，營收 NT$265,518。相較完整 7 月，工作階段 -17.8%、營收 -63.0%。7 月活動高峰讓比較基期偏高。</p><div class="bar"><i style="width:32.7%"></i></div></div>
+    <div class="channel-card"><header><b>Instagram 社群</b><strong class="down">-63.3%</strong></header><p>1,148 工作階段，27 筆購買，營收 NT$60,222。相較完整 7 月，工作階段 -63.3%，社群導流量明顯縮小。</p><div class="bar"><i style="width:8.8%"></i></div></div>
+    <div class="channel-card"><header><b>Google 自然搜尋</b><strong class="flat">-12.2%</strong></header><p>5,212 工作階段，71 筆購買，營收 NT$151,782。工作階段比完整 7 月減少 12.2%，營收則增加 10.4%。</p><div class="bar"><i style="width:39.7%"></i></div></div>
+  </div>
+  <div class="insight-band"><div><h3>7 月活動型轉介流量在 8 月明顯減少</h3><p>7 月 linktr.ee 與 reurl.cc 分別帶來 2,504 與 2,820 個工作階段，8 月只剩 1 與 96。這些來源很可能和 7 月活動導流有關，因此這段落差不宜全部解讀為網站需求下降。</p></div><div class="bigcall"><strong>13,114</strong><span>8 月 Meta 廣告工作階段</span></div></div>
+  <div class="source">期間：2026/8/1 至 8/30，對比 2026/7/1 至 7/30。口徑：GA4 來源／媒介。來源：ga4_channel_comparison.csv、ga4_august_analysis.json。</div>
+</div></section>
+
+<section class="section" id="structure"><div class="wrap">
+  <div class="chapter">06 投放架構</div><h2>8 月投放已分成新客、品項與再行銷三層</h2>
+  <p class="lead">8 月預算主要放在新客拓展，品項分類承接明確的商品需求，再行銷則回收已互動或瀏覽過的受眾。三層結構已建立，接下來要減少相似廣告組合彼此分散預算，並增加新素材支撐放量。</p>
+  <div class="architecture">
+    <div class="layer"><div class="num">01</div><h3>新客拓展</h3><div class="big">44.5%</div><p>花費 NT$42,704<br>購買 70，營收 NT$141,711<br>CPA NT$610，ROAS 3.32</p><div class="flowbar"><i style="width:44.5%"></i></div></div><div class="layer"><div class="num">02</div><h3>品項分類</h3><div class="big">32.5%</div><p>花費 NT$31,154<br>購買 46，營收 NT$99,898<br>CPA NT$677，ROAS 3.21</p><div class="flowbar"><i style="width:32.5%"></i></div></div><div class="layer"><div class="num">03</div><h3>再行銷</h3><div class="big">23.0%</div><p>花費 NT$22,035<br>購買 34，營收 NT$65,151<br>CPA NT$648，ROAS 2.96</p><div class="flowbar"><i style="width:23.0%"></i></div></div>
+  </div>
+  <div class="insight-band"><div><h3>相似廣告組合太多，會把預算與學習資料切散</h3><p>Meta 系統也建議減少相似廣告組合的分散。當受眾與素材太接近，每個組合分到的預算與轉換資料都會變少，學習速度也會變慢。9 月可保留已驗證的三層結構，逐步合併重複組合，讓新素材先取得足夠曝光，再比較成效。</p></div><div class="bigcall"><strong>44.5%</strong><span>8 月預算投入新客拓展</span></div></div>
+  <div class="source">此頁的廣告活動比較統一採 Meta 點擊後 7 天，方便比較各層預算與轉換效率；帳戶整體成效仍以增幅歸因 ROAS 4.34 為主。來源：meta_campaigns_august.csv、meta_august_analysis.json、meta_official_recommendations.json。</div>
+</div></section>
+
+<section class="section soft" id="product"><div class="wrap">
+  <div class="chapter">07 品項表現</div><h2>運動內衣目前效率最好，瑜珈褲有需求但素材還不夠</h2>
+  <div class="product-grid">
+    <div class="product-card"><div class="label">運動內衣｜Meta 品項分類</div><strong>ROAS 3.72</strong><dl><div><dt>花費</dt><dd>NT$19,130</dd></div><div><dt>購買</dt><dd>30</dd></div><div><dt>營收</dt><dd>NT$71,098</dd></div><div><dt>CPA</dt><dd>NT$638</dd></div></dl></div><div class="product-card"><div class="label">瑜珈褲｜Meta 品項分類</div><strong>ROAS 2.60</strong><dl><div><dt>花費</dt><dd>NT$9,261</dd></div><div><dt>購買</dt><dd>12</dd></div><div><dt>營收</dt><dd>NT$24,040</dd></div><div><dt>CPA</dt><dd>NT$772</dd></div></dl></div><div class="product-card"><div class="label">外套／上衣｜Meta 品項分類</div><strong>ROAS 1.72</strong><dl><div><dt>花費</dt><dd>NT$2,763</dd></div><div><dt>購買</dt><dd>4</dd></div><div><dt>營收</dt><dd>NT$4,760</dd></div><div><dt>CPA</dt><dd>NT$691</dd></div></dl></div>
+  </div>
+  <div class="insight-band"><div><h3>GA4 顯示多款瑜珈褲在 8 月成長</h3><p>Rosé 8 月品項營收 NT$50,730，較 7 月 +32.6%；Libre +158.3%、Libre Bootcut +81.3%、Déesse2.0 +13.3%。同一期間，Meta 瑜珈褲分類投放 ROAS 2.60，低於運動內衣 3.72。下一輪可優先補版型、功能與實穿情境，讓廣告內容更完整。</p></div><div class="bigcall"><strong>3 種</strong><span>瑜珈褲已投遞素材數，運動內衣 6 種、外套上衣 8 種</span></div></div>
+  <h3 style="margin-top:42px">GA4 品項營收排行</h3><div class="table-wrap"><table><thead><tr><th>品項</th><th>瀏覽</th><th>加入購物車</th><th>購買件數</th><th>品項營收</th><th>vs 7 月</th></tr></thead><tbody>
+  <tr><td>[Rosé] 高腰後口袋無尷尬線裸感九分瑜珈褲Leggings</td><td>4,494</td><td>298</td><td>57</td><td>NT$50,730</td><td class="up">+32.6%</td></tr><tr><td>[Myth] 棉感短袖短版上衣Crop Top</td><td>4,668</td><td>244</td><td>68</td><td>NT$49,640</td><td class="down">-16.0%</td></tr><tr><td>[Cozy] 棉感短袖修身上衣</td><td>4,709</td><td>279</td><td>59</td><td>NT$44,250</td><td class="up">+25.5%</td></tr><tr><td> 360°全罩防曬沁涼連帽外套 UPF50+</td><td>3,437</td><td>139</td><td>40</td><td>NT$44,000</td><td class="up">+17.6%</td></tr><tr><td>[Déesse2.0] 高腰無尷尬線裸感九分瑜珈褲Leggings</td><td>2,726</td><td>195</td><td>51</td><td>NT$43,350</td><td class="up">+13.3%</td></tr><tr><td>[Papillon2.0] 交叉美背固定式胸墊運動內衣</td><td>2,869</td><td>209</td><td>51</td><td>NT$40,800</td><td class="up">+8.5%</td></tr><tr><td>[Lumi]簡約細肩固定式胸墊運動內衣</td><td>2,449</td><td>122</td><td>41</td><td>NT$30,750</td><td class="up">+51.9%</td></tr><tr><td>[Libre Bootcut] 高腰無尷尬線無尺碼裸感九分喇叭瑜珈褲Leggings</td><td>1,779</td><td>105</td><td>29</td><td>NT$30,450</td><td class="up">+81.2%</td></tr>
+  </tbody></table></div>
+  <div class="source">此頁的 Meta 品項分類廣告組合統一採點擊後 7 天；GA4 品項表用來觀察全站商品需求。帳戶整體成效仍以增幅歸因 ROAS 4.34 為主。來源：meta_adsets_august.csv、ga4_items_top.csv、meta_august_analysis.json。</div>
+</div></section>
+
+<section class="section" id="creative"><div class="wrap">
+  <div class="chapter">08 素材表現</div><h2>「夏季 7 款」帶來最多營收，Cozy 則有最高的單品素材 ROAS</h2>
+  <p class="lead">素材排名統一採點擊後 7 天，避免不同歸因口徑混在一起。合併同名素材後，「夏季 7 款」帶來 NT$98,283 營收、41 筆購買，ROAS 4.63；Cozy 修身上衣營收 NT$41,910，ROAS 4.79。瑜珈褲目前主要依靠美拉德與挑選指南兩類內容，素材題材仍偏少。</p>
+  <div class="creative-grid" style="margin-top:34px">
+  <div class="creative-card"><div class="rank">#1</div><div><b>Reels-夏季 7 款</b><small>花費 NT$21,230｜41 筆購買｜CPA NT$518</small></div><strong>NT$98,283<small style="display:block;text-align:right">ROAS 4.63</small></strong></div><div class="creative-card"><div class="rank">#2</div><div><b>Reels-美拉德 MAILLARD</b><small>花費 NT$15,574｜19 筆購買｜CPA NT$820</small></div><strong>NT$42,905<small style="display:block;text-align:right">ROAS 2.75</small></strong></div><div class="creative-card"><div class="rank">#3</div><div><b>Reels-[Cozy] 棉感短袖修身上衣</b><small>花費 NT$8,758｜22 筆購買｜CPA NT$398</small></div><strong>NT$41,910<small style="display:block;text-align:right">ROAS 4.79</small></strong></div><div class="creative-card"><div class="rank">#4</div><div><b>運內挑選指南</b><small>花費 NT$12,600｜19 筆購買｜CPA NT$663</small></div><strong>NT$38,336<small style="display:block;text-align:right">ROAS 3.04</small></strong></div><div class="creative-card"><div class="rank">#5</div><div><b>Reels-360°全罩防曬沁涼連帽外套-1</b><small>花費 NT$13,838｜23 筆購買｜CPA NT$602</small></div><strong>NT$36,510<small style="display:block;text-align:right">ROAS 2.64</small></strong></div><div class="creative-card"><div class="rank">#6</div><div><b>Reels-[Myth] 棉感短袖短版上衣</b><small>花費 NT$5,541｜8 筆購買｜CPA NT$693</small></div><strong>NT$13,555<small style="display:block;text-align:right">ROAS 2.45</small></strong></div><div class="creative-card"><div class="rank">#7</div><div><b>Reels-[Myth] 棉感短袖短版上衣-2</b><small>花費 NT$5,493｜6 筆購買｜CPA NT$916</small></div><strong>NT$12,856<small style="display:block;text-align:right">ROAS 2.34</small></strong></div><div class="creative-card"><div class="rank">#8</div><div><b>瑜珈褲挑選指南</b><small>花費 NT$3,472｜4 筆購買｜CPA NT$868</small></div><strong>NT$10,030<small style="display:block;text-align:right">ROAS 2.89</small></strong></div>
+  </div>
+  <h3 style="margin-top:42px">廣告組合與單則廣告排行</h3><div class="table-wrap"><table><thead><tr><th>層級／名稱</th><th>花費</th><th>購買</th><th>營收</th><th>CPA</th><th>ROAS</th></tr></thead><tbody>
+  <tr><td><span class="rank-num">廣告組合</span>運動服裝/Lululemon/緊身褲2</td><td>NT$26,480</td><td>47</td><td>NT$94,505</td><td>NT$563</td><td>3.57</td></tr><tr><td><span class="rank-num">廣告組合</span>運動內衣2</td><td>NT$13,163</td><td>22</td><td>NT$54,642</td><td>NT$598</td><td>4.15</td></tr><tr><td><span class="rank-num">廣告組合</span>粉專互動_7dyas</td><td>NT$9,059</td><td>15</td><td>NT$29,044</td><td>NT$604</td><td>3.21</td></tr>
+  <tr><td><span class="rank-num">單則廣告</span>Reels-夏季 7 款</td><td>NT$7,649</td><td>19</td><td>NT$46,792</td><td>NT$403</td><td>6.12</td></tr><tr><td><span class="rank-num">單則廣告</span>Reels-[Cozy] 棉感短袖修身上衣</td><td>NT$8,305</td><td>21</td><td>NT$39,985</td><td>NT$395</td><td>4.81</td></tr><tr><td><span class="rank-num">單則廣告</span>Reels-夏季 7 款</td><td>NT$7,313</td><td>12</td><td>NT$27,596</td><td>NT$609</td><td>3.77</td></tr>
+  </tbody></table></div>
+  <div class="source">素材排行統一採 Meta 點擊後 7 天，同名素材會跨廣告組合合併計算；帳戶整體成效仍以增幅歸因 ROAS 4.34 為主。來源：meta_ads_august.csv、meta_adsets_august.csv。</div>
+</div></section>
+
+<section class="section soft" id="issues"><div class="wrap">
+  <div class="chapter">09 站內承接</div><h2>目前最需要改善的是品類頁選購資訊與瑜珈褲素材</h2>
+  <div class="issue-grid" style="margin-top:34px">
+    <div class="issue"><b>觀察 01</b><h3>品類頁互動偏低</h3><p>曾接觸 Meta 廣告的使用者中，運動內衣品類頁有 125 個工作階段，互動率 24.0%；瑜珈褲品類頁 46 個工作階段，互動率 23.9%。Cozy 單品頁的互動率則為 64.5%。</p><div class="next">下一步：品類頁首屏直接呈現版型差異、適合情境、尺碼與實穿對照，讓使用者更快找到適合自己的款式。</div></div>
+    <div class="issue"><b>觀察 02</b><h3>瑜珈褲素材題材太少</h3><p>瑜珈褲目前只有 3 種已投遞素材，且廣告營收主要集中在美拉德。站內 Rosé、Libre、Bootcut 等款式都有成長，但廣告內容還沒有完整帶出不同商品與版型的選擇。</p><div class="next">下一步：優先補「實穿版型」、「無尷尬線」、「高腰包覆」、「深蹲與伸展」、「不同腿型」、「通勤到運動穿搭」六個角度。</div></div>
+    <div class="issue"><b>觀察 03</b><h3>Meta 流量放大後，加入購物車與結帳也跟著增加</h3><p>曾接觸 Meta 廣告的使用者中，加入購物車由 627 次增至 1,470 次，開始結帳由 57 次增至 152 次，購買由 30 筆增至 55 筆。流量增加的同時，購物車與結帳等後段行為也一起成長。</p><div class="next">下一步：先改善品類頁到單品頁的選購資訊，再持續觀察加入購物車、開始結帳與購買的承接變化。</div></div>
+    <div class="issue"><b>觀察 04</b><h3>單日 ROAS 波動仍大</h3><p>點擊後 7 天口徑下，8/10 與 8/25 的 ROAS 分別為 0.00 與 0.15；8/20、8/22、8/29 則明顯回升，單日差異很大。</p><div class="next">下一步：以 3 至 5 日的滾動區間觀察素材與廣告組合，避免因單日掉單就頻繁調整投放結構。</div></div>
+  </div>
+  <div class="source">到達頁與事件採 GA4 觀察站內行為；Meta 廣告營收仍以 Meta 歸因數字判讀。帳戶整體成效以增幅歸因 ROAS 4.34 為主，點擊後 7 天用來查看直接轉換。來源：ga4_landing_pages_meta.csv、ga4_august_analysis.json、meta_august_analysis.json。</div>
+</div></section>
+
+<section class="section dark" id="plan"><div class="wrap">
+  <div class="chapter">10 9 月計畫</div><h2>9 月先補素材，再用秋季特賣與短檔期放大有效組合</h2>
+  <p class="lead">8 月增加花費後，增幅歸因營收仍高於排除團購後的 7 月，但 ROAS 從 6.33 降至 4.34。9 月先補素材與站內選購
